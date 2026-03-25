@@ -1,0 +1,329 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Elite Cuts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--gold:#c9a227;--gold-light:#e0c85a;--bg:#000;--card:#111;--border:rgba(201,162,39,.25);--text:#fff;--muted:#888}
+        html{scroll-behavior:smooth}body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}a{text-decoration:none;color:inherit}
+        .header{background:rgba(0,0,0,.95);padding:16px 30px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+        .logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700}.logo i{color:var(--gold)}
+        .back-btn{color:var(--gold);display:flex;align-items:center;gap:8px;font-weight:500;transition:all .3s}.back-btn:hover{color:var(--gold-light)}
+        .hero-quote{position:relative;padding:80px 20px;text-align:center;background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.85)),url('https://images.unsplash.com/photo-1585747860019-024d5e633a0b?w=1400&h=500&fit=crop') center/cover no-repeat;border-bottom:1px solid var(--border)}
+        .hero-quote blockquote{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:600;line-height:1.3;max-width:800px;margin:0 auto 16px;color:var(--gold)}
+        .hero-quote cite{font-size:1rem;color:var(--muted);font-style:normal;letter-spacing:2px;text-transform:uppercase}
+        .quote-divider{width:60px;height:2px;background:var(--gold);margin:20px auto 0}
+        .marquee-strip{background:var(--gold);overflow:hidden;padding:12px 0;white-space:nowrap}
+        .marquee-inner{display:inline-block;animation:marquee 25s linear infinite}
+        .marquee-inner span{display:inline-block;padding:0 40px;font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:3px;color:#000}
+        @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        .services-section{padding:80px 20px}
+        .section-title{text-align:center;font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;text-transform:uppercase;letter-spacing:4px;margin-bottom:50px}
+        .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1200px;margin:0 auto}
+        .svc-card{background:var(--card);border:1px solid rgba(201,162,39,.15);border-radius:8px;overflow:hidden;transition:all .4s;cursor:pointer}
+        .svc-card:hover{border-color:var(--gold);transform:translateY(-6px);box-shadow:0 20px 50px rgba(201,162,39,.15)}
+        .svc-card-img{width:100%;height:280px;object-fit:cover;display:block;transition:transform .5s}
+        .svc-card:hover .svc-card-img{transform:scale(1.05)}
+        .svc-card-body{padding:22px 24px 26px}
+        .svc-card-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+        .svc-card-dur{font-size:.85rem;color:var(--muted);margin-bottom:4px}
+        .svc-card-price{font-size:1rem;font-weight:600;margin-bottom:16px}
+        .svc-book-btn{display:inline-block;padding:10px 28px;border:1px solid var(--gold);color:var(--gold);background:transparent;font-size:.85rem;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all .3s;font-family:inherit}
+        .svc-book-btn:hover{background:var(--gold);color:#000}
+        .quotes-section{padding:60px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+        .quotes-grid{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+        .quote-card{flex:1;min-width:280px;max-width:340px;background:rgba(201,162,39,.06);border:1px solid rgba(201,162,39,.12);border-radius:12px;padding:30px;text-align:center}
+        .quote-card i{font-size:1.5rem;color:var(--gold);margin-bottom:14px;display:block}
+        .quote-card p{font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;line-height:1.6;color:rgba(255,255,255,.85)}
+        .quote-card cite{display:block;margin-top:12px;font-size:.8rem;color:var(--gold);letter-spacing:1px;text-transform:uppercase;font-style:normal}
+        .booking-section{padding:60px 20px;display:none}.booking-section.active{display:block}
+        .booking-wrap{max-width:900px;margin:0 auto}
+        .booking-title{text-align:center;font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:30px;color:var(--gold)}
+        .steps-bar{display:flex;justify-content:center;gap:8px;margin-bottom:30px}
+        .step-pill{display:flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(255,255,255,.04);border-radius:30px;font-size:.85rem;color:var(--muted);transition:all .3s}
+        .step-pill.active{background:rgba(201,162,39,.15);color:var(--gold);border:1px solid rgba(201,162,39,.3)}
+        .step-pill.done{background:rgba(74,222,128,.1);color:#4ade80}
+        .step-num{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
+        .step-pill.active .step-num{background:var(--gold);color:#000}.step-pill.done .step-num{background:#4ade80;color:#000}
+        .panel{background:var(--card);border:1px solid rgba(201,162,39,.1);border-radius:16px;padding:30px;display:none}.panel.active{display:block}
+        .panel h2{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:20px;display:flex;align-items:center;gap:10px}.panel h2 i{color:var(--gold)}
+        .options-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+        .opt{background:rgba(255,255,255,.03);border:2px solid transparent;border-radius:12px;padding:18px;text-align:center;cursor:pointer;transition:all .3s}
+        .opt:hover{background:rgba(255,255,255,.06);transform:translateY(-2px)}.opt.selected{border-color:var(--gold);background:rgba(201,162,39,.08)}
+        .opt img{width:55px;height:55px;border-radius:50%;object-fit:cover;margin-bottom:10px}
+        .opt h4{font-size:.95rem;margin-bottom:3px}.opt p{font-size:.8rem;color:var(--muted)}.opt .stars{color:#fbbf24;font-size:.75rem;margin-top:4px}
+        .opt-any{display:flex;align-items:center;justify-content:center;width:55px;height:55px;border-radius:50%;background:rgba(201,162,39,.15);margin:0 auto 10px;font-size:1.2rem;color:var(--gold)}
+        .cal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+        .cal-nav{width:35px;height:35px;background:var(--gold);border:none;border-radius:50%;color:#000;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;font-weight:700}
+        .cal-nav:hover{background:var(--gold-light);transform:scale(1.1)}
+        .cal-month{font-size:1.05rem;font-weight:600}
+        .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:24px}
+        .cal-dh{text-align:center;font-size:.75rem;color:var(--muted);padding:8px 0;font-weight:500}
+        .cal-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;font-size:.9rem;transition:all .2s;background:transparent;border:none;color:#fff}
+        .cal-d:hover:not(.off):not(.empty){background:rgba(201,162,39,.2)}.cal-d.sel{background:var(--gold);color:#000;font-weight:700}.cal-d.today{border:2px solid var(--gold)}.cal-d.off{color:#333;cursor:not-allowed}.cal-d.empty{cursor:default}
+        .time-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+        .ts{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px;text-align:center;cursor:pointer;transition:all .3s;font-size:.9rem}
+        .ts:hover:not(.bk){background:rgba(201,162,39,.12);border-color:var(--gold)}.ts.sel{background:var(--gold);border-color:var(--gold);color:#000;font-weight:600}.ts.bk{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:#555;cursor:not-allowed;text-decoration:line-through}
+        .fg{margin-bottom:16px}.fg label{display:block;margin-bottom:6px;font-size:.9rem;font-weight:500;color:var(--gold)}
+        .fg input{width:100%;padding:12px 15px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.04);color:#fff;font-size:.95rem;font-family:inherit}
+        .fg input:focus{outline:none;border-color:var(--gold)}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .summary{background:rgba(201,162,39,.06);border:1px solid rgba(201,162,39,.15);border-radius:12px;padding:20px;margin-top:16px}
+        .sum-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}.sum-row:last-child{border:none}.sum-row .lbl{color:var(--muted)}.sum-row .val{font-weight:600}
+        .nav-btns{display:flex;justify-content:space-between;margin-top:24px}
+        .btn{padding:14px 32px;border-radius:10px;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .3s;border:none;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
+        .btn-gold{background:var(--gold);color:#000}.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,162,39,.3)}.btn-gold:disabled{background:#333;color:#666;cursor:not-allowed;transform:none;box-shadow:none}
+        .btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.1)}.btn-ghost:hover{background:rgba(255,255,255,.1)}
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:1000}.modal-overlay.active{display:flex}
+        .modal{background:#111;border:1px solid rgba(201,162,39,.2);border-radius:20px;padding:40px;max-width:480px;width:90%;text-align:center}
+        .modal .chk{font-size:4rem;color:#4ade80;margin-bottom:16px}.modal h2{font-family:'Playfair Display',serif;font-size:1.6rem;margin-bottom:8px;color:#4ade80}.modal>p{color:var(--muted);margin-bottom:20px}
+        .gcal-wrap{display:none;margin-bottom:24px}
+        .gcal-wrap.active{display:block}
+        .gcal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+        .gcal-header-left{display:flex;align-items:center;gap:14px}
+        .gcal-header-left img{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+        .gcal-header-left h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin:0}.gcal-header-left p{font-size:.82rem;color:var(--muted);margin:2px 0 0}
+        .gcal-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,162,39,.1);border:1px solid var(--border);padding:6px 14px;border-radius:20px;font-size:.78rem;color:var(--gold);font-weight:600;letter-spacing:.5px}
+        .gcal-info{display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap}
+        .gcal-info-item{display:flex;align-items:center;gap:8px;font-size:.88rem;color:var(--muted)}.gcal-info-item i{color:var(--gold);font-size:1rem}
+        .gcal-frame-wrap{background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--border);position:relative}
+        .gcal-frame-wrap iframe{display:block;width:100%;min-height:680px;border:none}
+        .gcal-note{text-align:center;margin-top:16px;font-size:.82rem;color:var(--muted)}
+        .gcal-note i{color:var(--gold);margin-right:4px}
+        .builtin-cal{display:block}.builtin-cal.hide{display:none}
+
+        /* ── ENHANCED ANIMATIONS ── */
+        @keyframes fadeInUp{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)}}
+        @keyframes goldPulse{0%,100%{box-shadow:0 0 5px rgba(201,162,39,.2)}50%{box-shadow:0 0 25px rgba(201,162,39,.5),0 0 50px rgba(201,162,39,.15)}}
+        @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        @keyframes scaleIn{0%{opacity:0;transform:scale(.85)}100%{opacity:1;transform:scale(1)}}
+        @keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0deg)}100%{opacity:0;transform:translateY(100px) rotate(720deg)}}
+        @keyframes checkPop{0%{transform:scale(0) rotate(-30deg)}50%{transform:scale(1.2) rotate(10deg)}100%{transform:scale(1) rotate(0deg)}}
+        @keyframes slideDown{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
+        @keyframes goldLine{0%{width:0}100%{width:60px}}
+        @keyframes sparkle{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1)}}
+
+        .svc-card{opacity:0;animation:fadeInUp .6s ease forwards}
+        .svc-card:nth-child(1){animation-delay:.1s}.svc-card:nth-child(2){animation-delay:.2s}.svc-card:nth-child(3){animation-delay:.3s}
+        .svc-card:nth-child(4){animation-delay:.4s}.svc-card:nth-child(5){animation-delay:.5s}.svc-card:nth-child(6){animation-delay:.6s}
+
+        .svc-book-btn{position:relative;overflow:hidden}
+        .svc-book-btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(201,162,39,.15),transparent);transition:left .6s}
+        .svc-book-btn:hover::after{left:100%}
+        .svc-card:hover .svc-book-btn{animation:goldPulse 2s ease infinite}
+
+        .section-title{background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+        .quote-divider{animation:goldLine 1s ease forwards}
+
+        .quote-card{opacity:0;animation:fadeInUp .6s ease forwards;position:relative;overflow:hidden}
+        .quote-card:nth-child(1){animation-delay:.2s}.quote-card:nth-child(2){animation-delay:.4s}.quote-card:nth-child(3){animation-delay:.6s}
+        .quote-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(201,162,39,.03) 0%,transparent 70%);animation:float 6s ease-in-out infinite}
+
+        .panel{animation:scaleIn .4s ease}
+        .step-pill{transition:all .4s cubic-bezier(.175,.885,.32,1.275)}
+
+        .opt{position:relative;overflow:hidden}
+        .opt::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(201,162,39,.06) 0%,transparent 70%);opacity:0;transition:opacity .3s}
+        .opt:hover::before{opacity:1}
+        .opt.selected{animation:goldPulse 3s ease infinite}
+        .opt img{transition:transform .3s,box-shadow .3s}
+        .opt:hover img{transform:scale(1.1);box-shadow:0 0 20px rgba(201,162,39,.3)}
+
+        .modal{animation:scaleIn .5s cubic-bezier(.175,.885,.32,1.275)}
+        .modal .chk{animation:checkPop .6s cubic-bezier(.175,.885,.32,1.275) forwards}
+
+        .ts{position:relative;overflow:hidden}
+        .ts::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(201,162,39,.1);border-radius:50%;transform:translate(-50%,-50%);transition:width .4s,height .4s}
+        .ts:hover:not(.bk)::after{width:200%;height:200%}
+
+        .cal-d{transition:all .2s cubic-bezier(.175,.885,.32,1.275)}
+        .cal-d:hover:not(.off):not(.empty){transform:scale(1.15)}
+
+        .header{animation:slideDown .5s ease}
+
+        .hero-quote{position:relative;overflow:hidden}
+        .hero-quote .sparkle{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--gold);pointer-events:none}
+
+        .booking-section{animation:fadeInUp .5s ease}
+
+        .btn-gold{position:relative;overflow:hidden}
+        .btn-gold::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s}
+        .btn-gold:hover::before{left:100%}
+
+        .summary{animation:fadeInUp .4s ease}
+        .sum-row{transition:background .2s}
+        .sum-row:hover{background:rgba(201,162,39,.05);border-radius:8px}
+
+        .gcal-wrap{animation:fadeInUp .5s ease}
+        .gcal-frame-wrap{transition:box-shadow .3s}
+        .gcal-frame-wrap:hover{box-shadow:0 0 40px rgba(201,162,39,.1)}
+
+        /* ── VAPI AI CONCIERGE ── */
+        .vapi-label{position:fixed;bottom:90px;right:24px;background:var(--gold);color:#000;font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 16px;border-radius:20px;z-index:999;pointer-events:none;box-shadow:0 4px 20px rgba(201,162,39,.4);animation:vapiFloat 3s ease-in-out infinite,fadeInUp .6s ease .5s both}
+        @keyframes vapiFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        @media(max-width:600px){.vapi-label{bottom:80px;right:16px;font-size:.7rem;padding:6px 12px}}
+
+        @media(max-width:992px){.services-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:600px){.services-grid{grid-template-columns:1fr}.hero-quote blockquote{font-size:1.6rem}.time-grid{grid-template-columns:repeat(3,1fr)}.form-row{grid-template-columns:1fr}.svc-card-img{height:220px}.section-title{font-size:2rem}.gcal-frame-wrap iframe{min-height:550px}.gcal-header{flex-direction:column;align-items:flex-start;gap:12px}}
+    </style>
+</head>
+<body>
+<header class="header"><a href="index.html" class="logo"><i class="bi bi-scissors"></i> Elite Cuts</a><div style="display:flex;align-items:center;gap:16px"><a href="admin.html" class="back-btn" style="font-size:.85rem"><i class="bi bi-shield-lock"></i> Admin</a><a href="index.html" class="back-btn"><i class="bi bi-arrow-left"></i> Back to Home</a></div></header>
+<section class="hero-quote"><blockquote id="mainQuote">"A great haircut is the best accessory a man can have."</blockquote><cite>— The Elite Cuts Philosophy</cite><div class="quote-divider"></div></section>
+<div class="marquee-strip"><div class="marquee-inner"><span>&#9733; Premium Grooming</span><span>&#9733; Master Barbers</span><span>&#9733; Since 2010</span><span>&#9733; 5-Star Rated</span><span>&#9733; Walk-ins Welcome</span><span>&#9733; Style is Confidence</span><span>&#9733; Look Sharp, Feel Sharp</span><span>&#9733; Premium Grooming</span><span>&#9733; Master Barbers</span><span>&#9733; Since 2010</span><span>&#9733; 5-Star Rated</span><span>&#9733; Walk-ins Welcome</span><span>&#9733; Style is Confidence</span><span>&#9733; Look Sharp, Feel Sharp</span></div></div>
+<section class="services-section" id="servicesSection"><h2 class="section-title">Our Services</h2><div class="services-grid" id="servicesGrid"></div></section>
+<section class="quotes-section"><div class="quotes-grid"><div class="quote-card"><i class="bi bi-quote"></i><p>"Style is a way to say who you are without having to speak."</p><cite>— Rachel Zoe</cite></div><div class="quote-card"><i class="bi bi-quote"></i><p>"Life is too short for boring hair. Be bold, be different, be you."</p><cite>— Elite Cuts</cite></div><div class="quote-card"><i class="bi bi-quote"></i><p>"Your hair is the crown you never take off. Wear it proudly."</p><cite>— Unknown</cite></div></div></section>
+<section class="booking-section" id="bookingSection"><div class="booking-wrap"><h2 class="booking-title" id="bookingTitle">Book Your Appointment</h2><div class="steps-bar" id="stepsBar"><div class="step-pill active" data-s="0"><span class="step-num">1</span> Barber</div><div class="step-pill" data-s="1"><span class="step-num">2</span> Date &amp; Time</div><div class="step-pill" data-s="2"><span class="step-num">3</span> Details</div></div>
+<div class="panel active" id="pnl0"><h2><i class="bi bi-person"></i> Choose Your Barber</h2><div class="options-grid" id="barberGrid"></div><div class="nav-btns"><button class="btn btn-ghost" onclick="backToServices()"><i class="bi bi-arrow-left"></i> Services</button><button class="btn btn-gold" id="toS1" disabled>Next <i class="bi bi-arrow-right"></i></button></div></div>
+<div class="panel" id="pnl1"><h2><i class="bi bi-calendar3"></i> Pick Date &amp; Time</h2>
+<!-- Google Calendar Appointment Scheduling for James Wilson -->
+<div class="gcal-wrap" id="gcalWrap">
+  <div class="gcal-header">
+    <div class="gcal-header-left">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="James Wilson">
+      <div><h3>James Wilson</h3><p>Master Barber &bull; Elite Cuts</p></div>
+    </div>
+    <div class="gcal-badge"><i class="bi bi-google"></i> Google Calendar</div>
+  </div>
+  <div class="gcal-info">
+    <div class="gcal-info-item"><i class="bi bi-clock"></i> 30 min appointments</div>
+    <div class="gcal-info-item"><i class="bi bi-geo-alt"></i> 42 Crown Street, New Delhi</div>
+    <div class="gcal-info-item"><i class="bi bi-globe2"></i> (GMT+05:30) India Standard Time</div>
+  </div>
+  <div class="gcal-frame-wrap">
+    <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1U3NNkRXLSTR8voQSafpwrOGP2qupi8l7vAsgVfspTr7yJ5pcM-TYcx7LPvlsnr2HeRfiYxyHr?gv=true" style="border:0" width="100%" height="680" frameborder="0"></iframe>
+  </div>
+  <p class="gcal-note"><i class="bi bi-info-circle"></i> Select a date &amp; time above to book directly with James Wilson via Google Calendar.</p>
+  <div class="nav-btns"><button class="btn btn-ghost" onclick="goStep(0)"><i class="bi bi-arrow-left"></i> Back to Barbers</button></div>
+</div>
+<!-- Google Calendar Appointment Scheduling for Michael Chen -->
+<div class="gcal-wrap" id="gcalWrapMichael">
+  <div class="gcal-header">
+    <div class="gcal-header-left">
+      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="Michael Chen">
+      <div><h3>Michael Chen</h3><p>Senior Stylist &bull; Elite Cuts</p></div>
+    </div>
+    <div class="gcal-badge"><i class="bi bi-google"></i> Google Calendar</div>
+  </div>
+  <div class="gcal-info">
+    <div class="gcal-info-item"><i class="bi bi-clock"></i> 30 min appointments</div>
+    <div class="gcal-info-item"><i class="bi bi-geo-alt"></i> 42 Crown Street, New Delhi</div>
+    <div class="gcal-info-item"><i class="bi bi-globe2"></i> (GMT+05:30) India Standard Time</div>
+  </div>
+  <div class="gcal-frame-wrap">
+    <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1qPRpFP7Rv1dXbedNiZfaEX2-8bIc8srdLuBC-j7wI_53e1AOnWVGV_rf2BbwSX0b9HTfUVmOF?gv=true" style="border:0" width="100%" height="680" frameborder="0"></iframe>
+  </div>
+  <p class="gcal-note"><i class="bi bi-info-circle"></i> Select a date &amp; time above to book directly with Michael Chen via Google Calendar.</p>
+  <div class="nav-btns"><button class="btn btn-ghost" onclick="goStep(0)"><i class="bi bi-arrow-left"></i> Back to Barbers</button></div>
+</div>
+<!-- Built-in Calendar for Other Barbers -->
+<div class="builtin-cal" id="builtinCal"><div class="cal-hdr"><button class="cal-nav" id="prevM"><i class="bi bi-chevron-left"></i></button><span class="cal-month" id="calMonth"></span><button class="cal-nav" id="nextM"><i class="bi bi-chevron-right"></i></button></div><div class="cal-grid" id="calGrid"></div><h3 style="font-size:1rem;margin-bottom:12px;color:var(--gold)">Available Times &#8212; <span id="dtLabel" style="color:var(--muted)">select a date</span></h3><div class="time-grid" id="timeGrid"></div><div class="nav-btns"><button class="btn btn-ghost" onclick="goStep(0)"><i class="bi bi-arrow-left"></i> Back</button><button class="btn btn-gold" id="toS2" disabled>Next <i class="bi bi-arrow-right"></i></button></div></div>
+</div>
+<div class="panel" id="pnl2"><h2><i class="bi bi-person-lines-fill"></i> Your Details</h2><form id="bookForm"><div class="form-row"><div class="fg"><label>Full Name *</label><input type="text" id="fN" required></div><div class="fg"><label>Phone *</label><input type="tel" id="fP" required></div></div><div class="form-row"><div class="fg"><label>Email</label><input type="email" id="fE"></div><div class="fg"><label>Notes</label><input type="text" id="fNt" placeholder="Any special requests?"></div></div><h3 style="font-size:1rem;margin:16px 0 10px;color:var(--gold)">Booking Summary</h3><div class="summary" id="summ"></div><div class="nav-btns"><button type="button" class="btn btn-ghost" onclick="goStep(1)"><i class="bi bi-arrow-left"></i> Back</button><button type="submit" class="btn btn-gold"><i class="bi bi-check-lg"></i> Confirm Booking</button></div></form></div>
+</div></section>
+<div class="modal-overlay" id="successModal"><div class="modal"><div class="chk"><i class="bi bi-check-circle-fill"></i></div><h2>Booking Confirmed!</h2><p>Your appointment has been booked successfully.</p><div class="summary" id="cSumm" style="text-align:left;margin-bottom:20px"></div><a href="index.html" class="btn btn-gold" style="justify-content:center;width:100%">Back to Home</a></div></div>
+<script>
+var services=[
+{key:'haircut',name:'THE GENTLEMEN CUT',dur:'30 min',price:1800,img:'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&h=400&fit=crop'},
+{key:'beard',name:"1920'S BROOKLYN",dur:'1 hr',price:1500,img:'https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&h=400&fit=crop'},
+{key:'shave',name:'SIGNATURE LINE',dur:'1 hr 30 min',price:2800,img:'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=400&fit=crop'},
+{key:'color',name:'THE CROWN COLOR',dur:'2 hr',price:4500,img:'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop'},
+{key:'deluxe',name:'ROYAL TREATMENT',dur:'2 hr 30 min',price:6500,img:'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&h=400&fit=crop'},
+{key:'kids',name:'LITTLE LEGENDS',dur:'30 min',price:800,img:'https://images.unsplash.com/photo-1634302086887-13b5281d1a58?w=600&h=400&fit=crop'}
+];
+var barbers=[
+{key:'james',name:'James Wilson',role:'Master Barber',rating:'5.0',img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'},
+{key:'michael',name:'Michael Chen',role:'Senior Stylist',rating:'4.8',img:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100'},
+{key:'david',name:'David Martinez',role:'Beard Specialist',rating:'5.0',img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100'},
+{key:'any',name:'Any Available',role:'Next available',rating:'',img:''}
+];
+var allTimes=['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00'];
+var SK='elitecuts_bookings',sel={service:null,barber:null,date:null,time:null},curMonth=new Date();
+function getBookings(){return JSON.parse(localStorage.getItem(SK)||'[]');}
+function saveBooking(b){var a=getBookings();a.push(b);localStorage.setItem(SK,JSON.stringify(a));}
+function fmtP(n){return n.toLocaleString('en-IN');}
+function fmtT(t){var p=t.split(':'),h=parseInt(p[0]),m=p[1];return(h%12||12)+':'+m+(h>=12?' PM':' AM');}
+function fmtD(ds){var d=new Date(ds+'T12:00:00');return d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});}
+function fmtDs(ds){var d=new Date(ds+'T12:00:00');return d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});}
+var quotes=["A great haircut is the best accessory a man can have.","Style is a reflection of your attitude and personality.","Your hair is 90% of your selfie.","Look sharp. Feel sharp. Be sharp.","Where tradition meets modern elegance.","Confidence starts with a great cut."];
+var qi=0;setInterval(function(){qi=(qi+1)%quotes.length;var el=document.getElementById('mainQuote');el.style.opacity=0;setTimeout(function(){el.textContent='\u201C'+quotes[qi]+'\u201D';el.style.opacity=1;},400);},5000);
+document.getElementById('mainQuote').style.transition='opacity .4s';
+(function(){var g=document.getElementById('servicesGrid');services.forEach(function(s){var c=document.createElement('div');c.className='svc-card';c.innerHTML='<img class="svc-card-img" src="'+s.img+'" alt="'+s.name+'"><div class="svc-card-body"><div class="svc-card-name">'+s.name+'</div><div class="svc-card-dur">'+s.dur+'</div><div class="svc-card-price">\u20B9'+fmtP(s.price)+'</div><button class="svc-book-btn">Book Now</button></div>';c.querySelector('.svc-book-btn').addEventListener('click',function(e){e.stopPropagation();selectService(s);});g.appendChild(c);});})();
+function selectService(s){sel.service=s;sel.barber=null;sel.date=null;sel.time=null;document.getElementById('bookingTitle').textContent='Book: '+s.name;document.getElementById('bookingSection').classList.add('active');resetSteps();goStep(0);document.getElementById('bookingSection').scrollIntoView({behavior:'smooth'});}
+function backToServices(){document.getElementById('bookingSection').classList.remove('active');document.getElementById('servicesSection').scrollIntoView({behavior:'smooth'});}
+(function(){var g=document.getElementById('barberGrid');barbers.forEach(function(b){var d=document.createElement('div');d.className='opt';var ih=b.img?'<img src="'+b.img+'" alt="'+b.name+'">':'<div class="opt-any"><i class="bi bi-people"></i></div>';var st=b.rating?'<div class="stars"><i class="bi bi-star-fill"></i> '+b.rating+'</div>':'';d.innerHTML=ih+'<h4>'+b.name+'</h4><p>'+b.role+'</p>'+st;d.addEventListener('click',function(){sel.barber=b;g.querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected');});d.classList.add('selected');document.getElementById('toS1').disabled=false;});g.appendChild(d);});})();
+function renderCal(){var grid=document.getElementById('calGrid'),label=document.getElementById('calMonth'),y=curMonth.getFullYear(),m=curMonth.getMonth();label.textContent=curMonth.toLocaleDateString('en-US',{month:'long',year:'numeric'});grid.innerHTML='';['S','M','T','W','T','F','S'].forEach(function(d){var h=document.createElement('div');h.className='cal-dh';h.textContent=d;grid.appendChild(h);});var first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),today=new Date();today.setHours(0,0,0,0);for(var i=0;i<first;i++){var e=document.createElement('div');e.className='cal-d empty';grid.appendChild(e);}for(var day=1;day<=days;day++){var btn=document.createElement('button');btn.className='cal-d';btn.textContent=day;var dt=new Date(y,m,day);dt.setHours(0,0,0,0);var ds=dt.toISOString().split('T')[0];if(dt<today){btn.classList.add('off');}else{(function(s,el){el.addEventListener('click',function(){pickDate(s,el)});})(ds,btn);}if(dt.getTime()===today.getTime())btn.classList.add('today');if(sel.date===ds)btn.classList.add('sel');grid.appendChild(btn);}}
+function pickDate(ds,el){sel.date=ds;sel.time=null;document.querySelectorAll('.cal-d').forEach(function(d){d.classList.remove('sel');});el.classList.add('sel');document.getElementById('dtLabel').textContent=fmtDs(ds);renderTimes();updateS2();}
+function renderTimes(){var g=document.getElementById('timeGrid');g.innerHTML='';var bk=getBookings();allTimes.forEach(function(t){var s=document.createElement('div');s.className='ts';s.textContent=fmtT(t);var booked=bk.some(function(b){return b.date===sel.date&&b.time===t&&(sel.barber.key==='any'||b.barber===sel.barber.key)&&b.status!=='cancelled';});if(booked){s.classList.add('bk');}else if(sel.date){s.addEventListener('click',function(){pickTime(t,s);});}if(sel.time===t)s.classList.add('sel');g.appendChild(s);});}
+function pickTime(t,el){sel.time=t;document.querySelectorAll('.ts').forEach(function(s){s.classList.remove('sel');});el.classList.add('sel');updateS2();}
+function updateS2(){document.getElementById('toS2').disabled=!(sel.date&&sel.time);}
+document.getElementById('prevM').addEventListener('click',function(){curMonth.setMonth(curMonth.getMonth()-1);renderCal();});
+document.getElementById('nextM').addEventListener('click',function(){curMonth.setMonth(curMonth.getMonth()+1);renderCal();});
+function goStep(n){document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});document.getElementById('pnl'+n).classList.add('active');document.querySelectorAll('.step-pill').forEach(function(s,i){s.classList.remove('active','done');if(i<n)s.classList.add('done');if(i===n)s.classList.add('active');});if(n===1){var bk=sel.barber?sel.barber.key:'';var isJames=bk==='james',isMichael=bk==='michael',hasGcal=isJames||isMichael;document.getElementById('gcalWrap').classList.toggle('active',isJames);document.getElementById('gcalWrapMichael').classList.toggle('active',isMichael);document.getElementById('builtinCal').classList.toggle('hide',hasGcal);if(!hasGcal){renderCal();renderTimes();}}if(n===2)renderSumm();}
+function resetSteps(){document.getElementById('barberGrid').querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected');});document.getElementById('toS1').disabled=true;document.getElementById('toS2').disabled=true;}
+document.getElementById('toS1').addEventListener('click',function(){goStep(1);});
+document.getElementById('toS2').addEventListener('click',function(){goStep(2);});
+function renderSumm(){var h='';h+='<div class="sum-row"><span class="lbl">Service</span><span class="val">'+sel.service.name+' \u2014 \u20B9'+fmtP(sel.service.price)+'</span></div>';h+='<div class="sum-row"><span class="lbl">Duration</span><span class="val">'+sel.service.dur+'</span></div>';h+='<div class="sum-row"><span class="lbl">Barber</span><span class="val">'+sel.barber.name+'</span></div>';h+='<div class="sum-row"><span class="lbl">Date</span><span class="val">'+fmtD(sel.date)+'</span></div>';h+='<div class="sum-row"><span class="lbl">Time</span><span class="val">'+fmtT(sel.time)+'</span></div>';document.getElementById('summ').innerHTML=h;}
+document.getElementById('bookForm').addEventListener('submit',function(e){e.preventDefault();var booking={id:String(Date.now()),fullName:document.getElementById('fN').value,phone:document.getElementById('fP').value,email:document.getElementById('fE').value||'',notes:document.getElementById('fNt').value||'',service:sel.service.key,barber:sel.barber.key,date:sel.date,time:sel.time,status:'confirmed',createdAt:new Date().toISOString()};saveBooking(booking);fetch('/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(booking)}).catch(function(){});var h='';h+='<div class="sum-row"><span class="lbl">Service</span><span class="val">'+sel.service.name+'</span></div>';h+='<div class="sum-row"><span class="lbl">Barber</span><span class="val">'+sel.barber.name+'</span></div>';h+='<div class="sum-row"><span class="lbl">Date</span><span class="val">'+fmtD(sel.date)+'</span></div>';h+='<div class="sum-row"><span class="lbl">Time</span><span class="val">'+fmtT(sel.time)+'</span></div>';h+='<div class="sum-row"><span class="lbl">Customer</span><span class="val">'+booking.fullName+'</span></div>';h+='<div class="sum-row"><span class="lbl">Price</span><span class="val">\u20B9'+fmtP(sel.service.price)+'</span></div>';document.getElementById('cSumm').innerHTML=h;document.getElementById('successModal').classList.add('active');});
+renderCal();
+
+/* ── Sparkle Particles on Hero ── */
+(function(){
+  var hero=document.querySelector('.hero-quote');
+  if(!hero)return;
+  function createSparkle(){
+    var s=document.createElement('div');
+    s.className='sparkle';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animation='sparkle '+(1+Math.random()*2)+'s ease-in-out';
+    s.style.opacity='0';
+    hero.appendChild(s);
+    setTimeout(function(){s.remove();},3000);
+  }
+  setInterval(createSparkle,400);
+})();
+
+/* ── Confetti on Success Modal ── */
+var origSubmit=document.getElementById('bookForm');
+var origSuccessModal=document.getElementById('successModal');
+var confettiObserver=new MutationObserver(function(mutations){
+  mutations.forEach(function(m){
+    if(origSuccessModal.classList.contains('active')){
+      for(var i=0;i<20;i++){
+        var c=document.createElement('div');
+        c.style.cssText='position:absolute;width:8px;height:8px;border-radius:50%;top:20%;left:'+Math.random()*100+'%;animation:confettiFall '+(1+Math.random())+'s ease forwards '+Math.random()*0.5+'s;pointer-events:none;';
+        c.style.background=['#c9a227','#e0c85a','#4ade80','#fff','#fbbf24'][Math.floor(Math.random()*5)];
+        origSuccessModal.querySelector('.modal').appendChild(c);
+        (function(el){setTimeout(function(){el.remove();},2500);})(c);
+      }
+    }
+  });
+});
+confettiObserver.observe(origSuccessModal,{attributes:true,attributeFilter:['class']});
+</script>
+
+<!-- VAPI AI Concierge -->
+<script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" async type="text/javascript"></script>
+<div class="vapi-label" id="vapiLabel">AI Concierge</div>
+<vapi-widget
+  public-key="dfd86a82-afe9-4e80-929a-a35999c644de"
+  assistant-id="05ba26ff-030a-460e-a087-d0ba0e921e5a"
+  mode="chat"
+  theme="dark"
+  position="bottom-right"
+  size="full"
+  radius="medium"
+  base-color="#1a1410"
+  accent-color="#c9a84c"
+  button-base-color="#1a1410"
+  button-accent-color="#c9a84c"
+  main-label="Elite Cuts AI Concierge"
+  empty-chat-message="Hello! I'm your Elite Cuts AI Concierge. I can help you book appointments, answer questions about our services, or check availability. How may I assist you today? ✨"
+></vapi-widget>
+</body></html>

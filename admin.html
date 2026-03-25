@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - Elite Cuts</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root{--gold:#c9a227;--gold-light:#e0c85a;--bg:#000;--bg2:#0a0a0a;--card:#111;--border:rgba(201,162,39,.25);--text:#fff;--muted:#888}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+/* -- LOGIN -- */
+.login-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-overlay.hidden{display:none}
+.login-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:50px 40px;max-width:420px;width:90%;text-align:center}
+.login-box .logo-icon{font-size:3rem;color:var(--gold);margin-bottom:10px}
+.login-box h2{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:6px}
+.login-box .sub{color:var(--muted);font-size:.9rem;margin-bottom:30px}
+.login-fg{margin-bottom:18px;text-align:left}
+.login-fg label{display:block;font-size:.85rem;color:var(--gold);margin-bottom:6px;font-weight:500}
+.login-fg input{width:100%;padding:13px 16px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:rgba(255,255,255,.04);color:#fff;font-size:.95rem;font-family:inherit}
+.login-fg input:focus{outline:none;border-color:var(--gold)}
+.login-btn{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .3s;font-family:inherit}
+.login-btn:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,162,39,.3)}
+.login-err{color:#ef4444;font-size:.85rem;margin-top:12px;display:none}
+.login-err.show{display:block}
+
+/* -- HEADER -- */
+.admin-header{background:rgba(0,0,0,.95);padding:16px 30px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+.admin-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700}
+.admin-logo i{color:var(--gold)}
+.admin-logo span{color:var(--gold);font-size:.75rem;font-weight:500;background:rgba(201,162,39,.15);padding:3px 10px;border-radius:20px;margin-left:8px}
+.admin-hdr-btns{display:flex;align-items:center;gap:12px}
+.admin-hdr-btns a,.admin-hdr-btns button{display:flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .3s;font-family:inherit;border:none}
+.btn-hdr-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.1)!important}
+.btn-hdr-ghost:hover{background:rgba(255,255,255,.12);color:#fff}
+.btn-hdr-gold{background:var(--gold);color:#000}
+.btn-hdr-gold:hover{background:var(--gold-light)}
+.btn-hdr-red{background:rgba(239,68,68,.15);color:#ef4444}
+.btn-hdr-red:hover{background:rgba(239,68,68,.25)}
+
+/* -- STATS -- */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:30px;max-width:1400px;margin:0 auto}
+.stat-box{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px;display:flex;justify-content:space-between;align-items:center;transition:all .3s}
+.stat-box:hover{border-color:var(--gold);transform:translateY(-3px)}
+.stat-box .info p{color:var(--muted);font-size:.82rem;margin-bottom:4px}
+.stat-box .info h3{font-size:1.6rem;font-weight:700;margin:0}
+.stat-box .icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.icon-blue{background:rgba(59,130,246,.15);color:#3b82f6}
+.icon-green{background:rgba(34,197,94,.15);color:#22c55e}
+.icon-yellow{background:rgba(234,179,8,.15);color:#eab308}
+.icon-purple{background:rgba(168,85,247,.15);color:#a855f7}
+
+/* -- BARBER TABS -- */
+.barber-section{padding:0 30px 30px;max-width:1400px;margin:0 auto}
+.barber-tabs{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.barber-tab{display:flex;align-items:center;gap:10px;padding:12px 22px;background:var(--card);border:2px solid transparent;border-radius:12px;cursor:pointer;transition:all .3s;font-size:.9rem;font-weight:500}
+.barber-tab:hover{border-color:rgba(201,162,39,.3);background:rgba(201,162,39,.05)}
+.barber-tab.active{border-color:var(--gold);background:rgba(201,162,39,.1);color:var(--gold)}
+.barber-tab img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid transparent}
+.barber-tab.active img{border-color:var(--gold)}
+.barber-tab .tab-icon{width:38px;height:38px;border-radius:50%;background:rgba(201,162,39,.15);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--gold)}
+
+/* -- CALENDAR PANEL -- */
+.cal-panel{display:none;background:var(--card);border:1px solid rgba(201,162,39,.15);border-radius:16px;overflow:hidden;margin-bottom:24px}
+.cal-panel.active{display:block}
+.cal-duo{display:none;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.cal-duo.active{display:grid}
+.cal-duo .cal-panel{display:block;margin-bottom:0}
+.cal-panel-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.06)}
+.cal-panel-header .left{display:flex;align-items:center;gap:12px}
+.cal-panel-header .left img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+.cal-panel-header .left h4{font-family:'Playfair Display',serif;font-size:1.1rem;margin:0}
+.cal-panel-header .left p{font-size:.8rem;color:var(--muted);margin:2px 0 0}
+.cal-panel-header .gcal-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(201,162,39,.1);border:1px solid var(--border);padding:5px 12px;border-radius:20px;font-size:.75rem;color:var(--gold);font-weight:600}
+.cal-panel iframe{display:block;width:100%;min-height:680px;border:none}
+.cal-panel-note{text-align:center;padding:14px;font-size:.82rem;color:var(--muted);border-top:1px solid rgba(255,255,255,.06)}
+.cal-panel-note i{color:var(--gold);margin-right:4px}
+
+/* -- BOOKINGS TABLE -- */
+.table-section{padding:0 30px 40px;max-width:1400px;margin:0 auto}
+.table-card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden}
+.table-toolbar{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.06);flex-wrap:wrap;gap:12px}
+.table-toolbar h3{font-family:'Playfair Display',serif;font-size:1.1rem;margin:0;display:flex;align-items:center;gap:8px}
+.table-toolbar h3 i{color:var(--gold)}
+.table-filters{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.filter-input{padding:9px 14px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.04);color:#fff;font-size:.85rem;font-family:inherit}
+.filter-input:focus{outline:none;border-color:var(--gold)}
+.filter-select{padding:9px 14px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.04);color:#fff;font-size:.85rem;font-family:inherit;cursor:pointer}
+.filter-select:focus{outline:none;border-color:var(--gold)}
+.filter-select option{background:#111;color:#fff}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{background:rgba(201,162,39,.1);color:var(--gold);padding:14px 18px;font-size:.82rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;text-align:left;border-bottom:1px solid rgba(201,162,39,.1)}
+.tbl td{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.04);font-size:.9rem;vertical-align:middle}
+.tbl tr:hover{background:rgba(201,162,39,.03)}
+.tbl .id-cell{color:var(--gold);font-weight:600;font-size:.8rem}
+.tbl .cust-name{font-weight:500}.tbl .cust-email{font-size:.78rem;color:var(--muted)}
+.badge-confirmed{background:rgba(34,197,94,.15);color:#22c55e;padding:5px 12px;border-radius:20px;font-size:.78rem;font-weight:600}
+.badge-pending{background:rgba(234,179,8,.15);color:#eab308;padding:5px 12px;border-radius:20px;font-size:.78rem;font-weight:600}
+.badge-cancelled{background:rgba(239,68,68,.15);color:#ef4444;padding:5px 12px;border-radius:20px;font-size:.78rem;font-weight:600}
+.act-btn{width:32px;height:32px;border:none;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:.85rem}
+.act-btn:hover{transform:scale(1.1)}
+.act-view{background:rgba(59,130,246,.15);color:#3b82f6}
+.act-del{background:rgba(239,68,68,.15);color:#ef4444}
+.no-data-row{text-align:center;padding:50px 20px!important;color:var(--muted)}
+.no-data-row i{font-size:2.5rem;display:block;margin-bottom:10px;opacity:.4}
+
+/* -- MODAL -- */
+.detail-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:1000}
+.detail-overlay.active{display:flex}
+.detail-modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;max-width:520px;width:90%}
+.detail-modal h3{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.detail-modal h3 i{color:var(--gold)}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.detail-item{margin-bottom:4px}
+.detail-item label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.detail-item p{font-size:.95rem;margin:0;font-weight:500}
+.detail-item .gold{color:var(--gold)}
+.detail-close{width:100%;margin-top:24px;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;border-radius:10px;cursor:pointer;font-size:.9rem;font-weight:600;font-family:inherit;transition:all .3s}
+.detail-close:hover{background:rgba(255,255,255,.12)}
+
+@media(max-width:1200px){.cal-duo.active{grid-template-columns:1fr;gap:20px}}
+@media(max-width:992px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.stats-row{grid-template-columns:1fr}.barber-tabs{flex-direction:column}.table-toolbar{flex-direction:column;align-items:flex-start}.table-filters{width:100%}.filter-input,.filter-select{width:100%}.detail-grid{grid-template-columns:1fr}.cal-panel iframe{min-height:550px}.admin-hdr-btns{flex-wrap:wrap}}
+
+/* ?? ENHANCED ANIMATIONS ?? */
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{0%{opacity:0;transform:scale(.9)}100%{opacity:1;transform:scale(1)}}
+@keyframes slideDown{0%{opacity:0;transform:translateY(-20px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes goldPulse{0%,100%{box-shadow:0 0 5px rgba(201,162,39,.15)}50%{box-shadow:0 0 20px rgba(201,162,39,.35)}}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes borderGlow{0%,100%{border-color:rgba(201,162,39,.15)}50%{border-color:rgba(201,162,39,.5)}}
+
+.login-box{animation:scaleIn .5s cubic-bezier(.175,.885,.32,1.275)}
+.login-box .logo-icon{animation:fadeInUp .6s ease .1s both}
+.login-box h2{animation:fadeInUp .6s ease .2s both}
+.login-box .sub{animation:fadeInUp .6s ease .3s both}
+.login-fg:nth-child(1){animation:fadeInUp .6s ease .4s both}
+.login-fg:nth-child(2){animation:fadeInUp .6s ease .5s both}
+.login-btn{animation:fadeInUp .6s ease .6s both;position:relative;overflow:hidden}
+.login-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s}
+.login-btn:hover::before{left:100%}
+
+.admin-header{animation:slideDown .5s ease}
+
+.stats-row .stat-box{animation:fadeInUp .5s ease both}
+.stats-row .stat-box:nth-child(1){animation-delay:.1s}
+.stats-row .stat-box:nth-child(2){animation-delay:.2s}
+.stats-row .stat-box:nth-child(3){animation-delay:.3s}
+.stats-row .stat-box:nth-child(4){animation-delay:.4s}
+.stat-box{position:relative;overflow:hidden}
+.stat-box::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform .4s}
+.stat-box:hover::after{transform:scaleX(1)}
+.stat-box .icon{transition:all .3s}
+.stat-box:hover .icon{transform:scale(1.15) rotate(5deg)}
+.stat-box .info h3{transition:color .3s}
+.stat-box:hover .info h3{color:var(--gold)}
+
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:6px;animation:livePulse 2s ease-in-out infinite}
+
+.barber-tab{transition:all .3s cubic-bezier(.175,.885,.32,1.275)}
+.barber-tab:hover{transform:translateY(-2px)}
+.barber-tab.active{animation:goldPulse 3s ease infinite}
+.barber-tab img{transition:all .3s}
+.barber-tab:hover img{transform:scale(1.1)}
+
+.cal-panel{animation:fadeInUp .4s ease}
+.cal-duo{animation:fadeInUp .4s ease}
+
+.tbl tr{transition:all .2s}
+.tbl tr:hover{background:rgba(201,162,39,.05)!important}
+.tbl tr:hover .id-cell{color:var(--gold-light)}
+.act-btn{transition:all .2s cubic-bezier(.175,.885,.32,1.275)}
+.act-btn:hover{transform:scale(1.2)}
+
+.table-card{animation:fadeInUp .5s ease .3s both}
+.table-card{border:1px solid rgba(201,162,39,.08);transition:border-color .3s}
+.table-card:hover{border-color:rgba(201,162,39,.2)}
+
+.detail-modal{animation:scaleIn .4s cubic-bezier(.175,.885,.32,1.275)}
+.detail-overlay{backdrop-filter:blur(8px)}
+
+.filter-input{transition:all .3s}
+.filter-input:focus{box-shadow:0 0 15px rgba(201,162,39,.15)}
+.filter-select{transition:all .3s}
+.filter-select:focus{box-shadow:0 0 15px rgba(201,162,39,.15)}
+
+.btn-hdr-gold{position:relative;overflow:hidden}
+.btn-hdr-gold::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s}
+.btn-hdr-gold:hover::before{left:100%}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-overlay" id="loginOverlay">
+<div class="login-box">
+  <div class="logo-icon"><i class="bi bi-shield-lock-fill"></i></div>
+  <h2>Admin Access</h2>
+  <p class="sub">Enter your credentials to access the dashboard</p>
+  <div class="login-fg"><label>Username</label><input type="text" id="loginUser" placeholder="Enter username" autocomplete="off"></div>
+  <div class="login-fg"><label>Password</label><input type="password" id="loginPass" placeholder="Enter password"></div>
+  <button class="login-btn" id="loginBtn"><i class="bi bi-box-arrow-in-right"></i> Sign In</button>
+  <p class="login-err" id="loginErr"><i class="bi bi-exclamation-circle"></i> Invalid username or password</p>
+  <p style="color:var(--muted);font-size:.78rem;margin-top:20px"><i class="bi bi-info-circle"></i> Contact management for access credentials</p>
+</div>
+</div>
+
+<!-- ADMIN DASHBOARD (hidden until login) -->
+<div id="adminDash" style="display:none">
+
+<header class="admin-header">
+  <div class="admin-logo"><i class="bi bi-scissors"></i> Elite Cuts <span>ADMIN</span></div>
+  <div class="admin-hdr-btns">
+    <button class="btn-hdr-ghost" onclick="exportBookings()"><i class="bi bi-download"></i> Export</button>
+    <a href="index.html" class="btn-hdr-ghost"><i class="bi bi-globe2"></i> Website</a>
+    <a href="booking.html" class="btn-hdr-ghost"><i class="bi bi-calendar-plus"></i> Booking</a>
+    <button class="btn-hdr-red" id="logoutBtn"><i class="bi bi-box-arrow-right"></i> Logout</button>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-box"><div class="info"><p>Total Bookings</p><h3 id="statTotal">0</h3></div><div class="icon icon-blue"><i class="bi bi-calendar-check"></i></div></div>
+  <div class="stat-box"><div class="info"><p><span class="live-dot"></span>Today</p><h3 id="statToday">0</h3></div><div class="icon icon-green"><i class="bi bi-clock"></i></div></div>
+  <div class="stat-box"><div class="info"><p>This Week</p><h3 id="statWeek">0</h3></div><div class="icon icon-yellow"><i class="bi bi-calendar-week"></i></div></div>
+  <div class="stat-box"><div class="info"><p>Revenue Est.</p><h3 id="statRev">&#8377;0</h3></div><div class="icon icon-purple"><i class="bi bi-cash-coin"></i></div></div>
+</div>
+
+<!-- BARBER TABS + CALENDARS -->
+<div class="barber-section">
+  <h3 style="font-family:'Playfair Display',serif;margin-bottom:16px;display:flex;align-items:center;gap:8px"><i class="bi bi-people-fill" style="color:var(--gold)"></i> Barber Schedules</h3>
+  <div class="barber-tabs" id="barberTabs">
+    <div class="barber-tab active" data-barber="all"><div class="tab-icon"><i class="bi bi-grid-3x3-gap"></i></div><div><strong>All Barbers</strong><br><small style="color:var(--muted)">View all bookings</small></div></div>
+    <div class="barber-tab" data-barber="james"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="James"><div><strong>James Wilson</strong><br><small style="color:var(--muted)">Master Barber</small></div></div>
+    <div class="barber-tab" data-barber="michael"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="Michael"><div><strong>Michael Chen</strong><br><small style="color:var(--muted)">Senior Stylist</small></div></div>
+    <div class="barber-tab" data-barber="david"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="David"><div><strong>David Martinez</strong><br><small style="color:var(--muted)">Beard Specialist</small></div></div>
+  </div>
+
+  <!-- Both Calendars Side by Side (All Barbers view) -->
+  <div class="cal-duo" id="calDuo">
+    <div class="cal-panel">
+      <div class="cal-panel-header">
+        <div class="left"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="James"><div><h4>James Wilson</h4><p>Master Barber</p></div></div>
+        <div class="gcal-tag"><i class="bi bi-google"></i> Schedule</div>
+      </div>
+      <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1U3NNkRXLSTR8voQSafpwrOGP2qupi8l7vAsgVfspTr7yJ5pcM-TYcx7LPvlsnr2HeRfiYxyHr?gv=true" style="border:0" width="100%" height="680" frameborder="0"></iframe>
+      <p class="cal-panel-note"><i class="bi bi-info-circle"></i> James Wilson's schedule</p>
+    </div>
+    <div class="cal-panel">
+      <div class="cal-panel-header">
+        <div class="left"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="Michael"><div><h4>Michael Chen</h4><p>Senior Stylist</p></div></div>
+        <div class="gcal-tag"><i class="bi bi-google"></i> Schedule</div>
+      </div>
+      <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1qPRpFP7Rv1dXbedNiZfaEX2-8bIc8srdLuBC-j7wI_53e1AOnWVGV_rf2BbwSX0b9HTfUVmOF?gv=true" style="border:0" width="100%" height="680" frameborder="0"></iframe>
+      <p class="cal-panel-note"><i class="bi bi-info-circle"></i> Michael Chen's schedule</p>
+    </div>
+  </div>
+
+  <!-- James Wilson Calendar (single view) -->
+  <div class="cal-panel" id="calJames">
+    <div class="cal-panel-header">
+      <div class="left"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="James"><div><h4>James Wilson</h4><p>Master Barber &bull; Google Calendar Schedule</p></div></div>
+      <div class="gcal-tag"><i class="bi bi-google"></i> Appointment Scheduling</div>
+    </div>
+    <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1U3NNkRXLSTR8voQSafpwrOGP2qupi8l7vAsgVfspTr7yJ5pcM-TYcx7LPvlsnr2HeRfiYxyHr?gv=true" style="border:0" width="100%" height="680" frameborder="0"></iframe>
+    <p class="cal-panel-note"><i class="bi bi-info-circle"></i> View and manage James Wilson's appointment schedule via Google Calendar</p>
+  </div>
+
+  <!-- Michael Chen Calendar (single view) -->
+  <div class="cal-panel" id="calMichael">
+    <div class="cal-panel-header">
+      <div class="left"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="Michael"><div><h4>Michael Chen</h4><p>Senior Stylist &bull; Google Calendar Schedule</p></div></div>
+      <div class="gcal-tag"><i class="bi bi-google"></i> Appointment Scheduling</div>
+    </div>
+    <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1qPRpFP7Rv1dXbedNiZfaEX2-8bIc8srdLuBC-j7wI_53e1AOnWVGV_rf2BbwSX0b9HTfUVmOF?gv=true" style="border:0" width="100%" height="680" frameborder="0"></iframe>
+    <p class="cal-panel-note"><i class="bi bi-info-circle"></i> View and manage Michael Chen's appointment schedule via Google Calendar</p>
+  </div>
+</div>
+
+<!-- BOOKINGS TABLE -->
+<div class="table-section">
+<div class="table-card">
+  <div class="table-toolbar">
+    <h3><i class="bi bi-table"></i> Appointments <span id="tableBarberLabel" style="color:var(--muted);font-weight:400;font-size:.85rem;margin-left:6px">- All Barbers</span></h3>
+    <div class="table-filters">
+      <input type="text" class="filter-input" id="searchInput" placeholder="Search name, email, ID...">
+      <select class="filter-select" id="filterStatus"><option value="">All Status</option><option value="confirmed">Confirmed</option><option value="pending">Pending</option><option value="cancelled">Cancelled</option></select>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="tbl">
+      <thead><tr><th>ID</th><th>Customer</th><th>Service</th><th>Barber</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="bookingsBody"><tr><td colspan="8" class="no-data-row"><i class="bi bi-calendar-x"></i>No bookings found</td></tr></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+</div><!-- end adminDash -->
+
+<!-- DETAIL MODAL -->
+<div class="detail-overlay" id="detailOverlay">
+<div class="detail-modal">
+  <h3><i class="bi bi-person-vcard"></i> Booking Details</h3>
+  <div id="detailContent"></div>
+  <button class="detail-close" onclick="closeDetail()"><i class="bi bi-x-lg"></i> Close</button>
+</div>
+</div>
+
+<script>
+/* -- CONFIG -- */
+var ADMIN_USER='admin',ADMIN_PASS='1234',SK='elitecuts_bookings',SESSION_KEY='elitecuts_admin_session';
+var servicePrices={haircut:1800,beard:1500,shave:2800,color:4500,deluxe:6500,kids:800};
+var serviceNames={haircut:'The Gentlemen Cut',beard:"1920's Brooklyn",shave:'Signature Line',color:'The Crown Color',deluxe:'Royal Treatment',kids:'Little Legends'};
+var barberNames={james:'James Wilson',michael:'Michael Chen',david:'David Martinez',any:'Any Available'};
+var activeBarber='all';
+
+/* -- LOGIN -- */
+function checkSession(){return sessionStorage.getItem(SESSION_KEY)==='true';}
+function doLogin(){
+  var u=document.getElementById('loginUser').value.trim();
+  var p=document.getElementById('loginPass').value;
+  if(u===ADMIN_USER&&p===ADMIN_PASS){
+    sessionStorage.setItem(SESSION_KEY,'true');
+    showDashboard();
+  }else{
+    document.getElementById('loginErr').classList.add('show');
+    document.getElementById('loginPass').value='';
+    setTimeout(function(){document.getElementById('loginErr').classList.remove('show');},3000);
+  }
+}
+function showDashboard(){
+  document.getElementById('loginOverlay').classList.add('hidden');
+  document.getElementById('adminDash').style.display='block';
+  loadAll();
+}
+function doLogout(){
+  sessionStorage.removeItem(SESSION_KEY);
+  document.getElementById('adminDash').style.display='none';
+  document.getElementById('loginOverlay').classList.remove('hidden');
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+}
+
+document.getElementById('loginBtn').addEventListener('click',doLogin);
+document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+document.getElementById('loginUser').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('loginPass').focus();});
+document.getElementById('logoutBtn').addEventListener('click',doLogout);
+
+if(checkSession()){showDashboard();}
+
+/* -- DATA -- */
+function getBookings(){return JSON.parse(localStorage.getItem(SK)||'[]');}
+function saveAll(b){localStorage.setItem(SK,JSON.stringify(b));}
+function loadAll(){updateStats();renderTable();updateCalPanels();}
+
+function updateStats(){
+  var bk=getBookings();
+  var today=new Date().toISOString().split('T')[0];
+  var ws=new Date();ws.setDate(ws.getDate()-ws.getDay());var weekStart=ws.toISOString().split('T')[0];
+  var filtered=activeBarber==='all'?bk:bk.filter(function(b){return b.barber===activeBarber;});
+  document.getElementById('statTotal').textContent=filtered.length;
+  document.getElementById('statToday').textContent=filtered.filter(function(b){return b.date===today;}).length;
+  document.getElementById('statWeek').textContent=filtered.filter(function(b){return b.date>=weekStart;}).length;
+  var rev=filtered.reduce(function(s,b){return s+(servicePrices[b.service]||0);},0);
+  document.getElementById('statRev').textContent='\u20B9'+rev.toLocaleString('en-IN');
+}
+
+function renderTable(){
+  var bk=getBookings();
+  var search=document.getElementById('searchInput').value.toLowerCase();
+  var status=document.getElementById('filterStatus').value;
+  if(activeBarber!=='all') bk=bk.filter(function(b){return b.barber===activeBarber;});
+  if(search) bk=bk.filter(function(b){return(b.fullName||'').toLowerCase().indexOf(search)!==-1||(b.email||'').toLowerCase().indexOf(search)!==-1||String(b.id).indexOf(search)!==-1;});
+  if(status) bk=bk.filter(function(b){return b.status===status;});
+  bk.sort(function(a,b){return new Date(b.createdAt||0)-new Date(a.createdAt||0);});
+  var tbody=document.getElementById('bookingsBody');
+  if(!bk.length){tbody.innerHTML='<tr><td colspan="8" class="no-data-row"><i class="bi bi-calendar-x"></i>No bookings found</td></tr>';return;}
+  tbody.innerHTML=bk.map(function(b){
+    return '<tr><td class="id-cell">'+b.id+'</td>'
+      +'<td><div class="cust-name">'+(b.fullName||'N/A')+'</div><div class="cust-email">'+(b.email||'')+'</div></td>'
+      +'<td>'+(serviceNames[b.service]||b.service||'N/A')+'</td>'
+      +'<td>'+(barberNames[b.barber]||b.barber||'N/A')+'</td>'
+      +'<td>'+fmtDate(b.date)+'</td>'
+      +'<td>'+fmtTime(b.time)+'</td>'
+      +'<td><span class="badge-'+(b.status||'confirmed')+'">'+(b.status||'confirmed')+'</span></td>'
+      +'<td><button class="act-btn act-view" onclick="viewBooking(\''+b.id+'\')" title="View"><i class="bi bi-eye"></i></button> '
+      +'<button class="act-btn act-del" onclick="deleteBooking(\''+b.id+'\')" title="Delete"><i class="bi bi-trash"></i></button></td></tr>';
+  }).join('');
+}
+
+/* -- BARBER TABS -- */
+document.getElementById('barberTabs').addEventListener('click',function(e){
+  var tab=e.target.closest('.barber-tab');
+  if(!tab)return;
+  document.querySelectorAll('.barber-tab').forEach(function(t){t.classList.remove('active');});
+  tab.classList.add('active');
+  activeBarber=tab.dataset.barber;
+  var label=activeBarber==='all'?'All Barbers':(barberNames[activeBarber]||activeBarber);
+  document.getElementById('tableBarberLabel').textContent='- '+label;
+  loadAll();
+});
+
+function updateCalPanels(){
+  var isAll=activeBarber==='all';
+  document.getElementById('calDuo').classList.toggle('active',isAll);
+  document.getElementById('calJames').classList.toggle('active',activeBarber==='james');
+  document.getElementById('calMichael').classList.toggle('active',activeBarber==='michael');
+}
+
+/* -- ACTIONS -- */
+function viewBooking(id){
+  var bk=getBookings();
+  var b=bk.find(function(x){return String(x.id)===String(id);});
+  if(!b)return;
+  var h='<div class="detail-grid">';
+  h+='<div class="detail-item"><label>Booking ID</label><p class="gold">'+b.id+'</p></div>';
+  h+='<div class="detail-item"><label>Status</label><p><span class="badge-'+(b.status||'confirmed')+'">'+(b.status||'confirmed')+'</span></p></div>';
+  h+='<div class="detail-item"><label>Customer</label><p>'+(b.fullName||'N/A')+'</p></div>';
+  h+='<div class="detail-item"><label>Phone</label><p>'+(b.phone||'N/A')+'</p></div>';
+  h+='<div class="detail-item"><label>Email</label><p>'+(b.email||'N/A')+'</p></div>';
+  h+='<div class="detail-item"><label>Service</label><p>'+(serviceNames[b.service]||b.service||'N/A')+'</p></div>';
+  h+='<div class="detail-item"><label>Price</label><p class="gold">\u20B9'+(servicePrices[b.service]||0).toLocaleString('en-IN')+'</p></div>';
+  h+='<div class="detail-item"><label>Barber</label><p>'+(barberNames[b.barber]||b.barber||'N/A')+'</p></div>';
+  h+='<div class="detail-item"><label>Date</label><p>'+fmtDate(b.date)+'</p></div>';
+  h+='<div class="detail-item"><label>Time</label><p>'+fmtTime(b.time)+'</p></div>';
+  h+='</div>';
+  if(b.notes) h+='<div class="detail-item" style="margin-top:12px"><label>Notes</label><p>'+b.notes+'</p></div>';
+  h+='<div class="detail-item" style="margin-top:8px"><label>Booked On</label><p style="font-size:.85rem;color:var(--muted)">'+new Date(b.createdAt).toLocaleString()+'</p></div>';
+  document.getElementById('detailContent').innerHTML=h;
+  document.getElementById('detailOverlay').classList.add('active');
+}
+function closeDetail(){document.getElementById('detailOverlay').classList.remove('active');}
+
+function deleteBooking(id){
+  if(!confirm('Delete this booking permanently?'))return;
+  var bk=getBookings().filter(function(b){return String(b.id)!==String(id);});
+  saveAll(bk);loadAll();
+}
+
+function exportBookings(){
+  var bk=getBookings();
+  if(activeBarber!=='all') bk=bk.filter(function(b){return b.barber===activeBarber;});
+  var blob=new Blob([JSON.stringify(bk,null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='elitecuts_bookings_'+activeBarber+'_'+new Date().toISOString().split('T')[0]+'.json';
+  a.click();
+}
+
+document.getElementById('searchInput').addEventListener('input',renderTable);
+document.getElementById('filterStatus').addEventListener('change',renderTable);
+
+function fmtDate(ds){if(!ds)return'N/A';return new Date(ds+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
+function fmtTime(t){if(!t)return'N/A';var p=t.split(':'),h=parseInt(p[0]),m=p[1]||'00';return(h%12||12)+':'+m+(h>=12?' PM':' AM');}
+
+document.getElementById('detailOverlay').addEventListener('click',function(e){if(e.target===this)closeDetail();});
+
+/* ?? Animated Count-Up for Stats ?? */
+function animateValue(el, target, prefix, duration) {
+  var start = 0, startTime = null;
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    var progress = Math.min((timestamp - startTime) / duration, 1);
+    var val = Math.floor(progress * target);
+    el.textContent = prefix + val.toLocaleString('en-IN');
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = prefix + target.toLocaleString('en-IN');
+  }
+  requestAnimationFrame(step);
+}
+var origUpdateStats = updateStats;
+updateStats = function() {
+  origUpdateStats();
+  var total = parseInt(document.getElementById('statTotal').textContent) || 0;
+  var today = parseInt(document.getElementById('statToday').textContent) || 0;
+  var week = parseInt(document.getElementById('statWeek').textContent) || 0;
+  var revText = document.getElementById('statRev').textContent.replace(/[^\d]/g, '');
+  var rev = parseInt(revText) || 0;
+  if (total > 0) animateValue(document.getElementById('statTotal'), total, '', 600);
+  if (today > 0) animateValue(document.getElementById('statToday'), today, '', 600);
+  if (week > 0) animateValue(document.getElementById('statWeek'), week, '', 600);
+  if (rev > 0) animateValue(document.getElementById('statRev'), rev, '\u20B9', 800);
+};
+</script>
+
+<!-- VAPI AI Concierge -->
+<style>
+.vapi-label{position:fixed;bottom:90px;right:24px;background:var(--gold);color:#000;font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 16px;border-radius:20px;z-index:999;pointer-events:none;box-shadow:0 4px 20px rgba(201,162,39,.4);animation:vapiFloat 3s ease-in-out infinite,fadeInUp .8s ease .5s both}
+@keyframes vapiFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media(max-width:600px){.vapi-label{bottom:80px;right:16px;font-size:.7rem;padding:6px 12px}}
+</style>
+<script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" async type="text/javascript"></script>
+<div class="vapi-label" id="vapiLabel">AI Concierge</div>
+<vapi-widget
+  public-key="dfd86a82-afe9-4e80-929a-a35999c644de"
+  assistant-id="05ba26ff-030a-460e-a087-d0ba0e921e5a"
+  mode="chat"
+  theme="dark"
+  position="bottom-right"
+  size="full"
+  radius="medium"
+  base-color="#1a1410"
+  accent-color="#c9a84c"
+  button-base-color="#1a1410"
+  button-accent-color="#c9a84c"
+  main-label="Elite Cuts AI Concierge"
+  empty-chat-message="Hello! I'm your Elite Cuts AI Concierge. I can help you book appointments, answer questions about our services, or check availability. How may I assist you today? ?"
+></vapi-widget>
+</body>
+</html>

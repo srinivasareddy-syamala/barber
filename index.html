@@ -1,0 +1,768 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Cuts - Premium Barber Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c9a227;--gold-light:#e0c85a;--gold-dark:#a68418;--bg:#000;--bg2:#0a0a0a;--card:#111;--card2:#161616;--border:rgba(201,162,39,.2);--border-subtle:rgba(255,255,255,.06);--text:#f0f0f0;--muted:#777;--white:#fff}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* ── NAVBAR ── */
+.navbar{position:fixed;top:0;width:100%;z-index:100;padding:20px 40px;transition:all .4s}
+.navbar.scrolled{padding:14px 40px;background:rgba(0,0,0,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;display:flex;align-items:center;gap:4px;letter-spacing:1px;color:var(--white)}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{font-size:.88rem;font-weight:500;color:var(--muted);transition:color .3s;letter-spacing:.5px}
+.nav-links a:hover{color:var(--gold)}
+.nav-admin-link{color:var(--gold)!important;font-weight:600!important;display:flex;align-items:center;gap:5px}
+.nav-cta{background:var(--gold)!important;color:#000!important;padding:11px 28px;border-radius:6px;font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:.8rem;transition:all .3s}
+.nav-cta:hover{background:var(--gold-light)!important;transform:translateY(-2px);box-shadow:0 8px 25px rgba(201,162,39,.3)}
+.mobile-toggle{display:none;background:none;border:none;color:var(--gold);font-size:1.5rem;cursor:pointer}
+@media(max-width:768px){
+.nav-links{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.97);flex-direction:column;justify-content:center;gap:28px;display:none;z-index:200}
+.nav-links.open{display:flex}
+.nav-links a{font-size:1.2rem;color:var(--white)}
+.mobile-toggle{display:block;z-index:201}
+}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:140px 20px 100px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1585747860019-024d5e633a0b?w=1600&h=900&fit=crop') center/cover no-repeat}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.75) 0%,rgba(0,0,0,.6) 40%,rgba(0,0,0,.85) 100%)}
+.hero-content{position:relative;z-index:2;max-width:850px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,162,39,.1);border:1px solid rgba(201,162,39,.3);padding:10px 24px;border-radius:30px;font-size:.82rem;color:var(--gold);margin-bottom:30px;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.hero h1{font-family:'Playfair Display',serif;font-size:4.5rem;font-weight:800;line-height:1.08;margin-bottom:24px;letter-spacing:-1px}
+.hero h1 .gold{color:var(--gold)}
+.hero h1 .thin{font-weight:400;font-style:italic}
+.hero-sub{font-size:1.15rem;color:var(--muted);max-width:600px;margin:0 auto 45px;line-height:1.8}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-gold{background:var(--gold);color:#000;padding:17px 42px;border-radius:8px;font-size:.9rem;font-weight:700;border:none;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:10px;letter-spacing:1px;text-transform:uppercase}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-3px);box-shadow:0 14px 40px rgba(201,162,39,.35)}
+.btn-ghost,.btn-outline{border:1px solid rgba(201,162,39,.4);color:var(--gold);padding:17px 42px;border-radius:8px;font-size:.9rem;font-weight:600;background:transparent;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:10px;letter-spacing:1px;text-transform:uppercase}
+.btn-ghost:hover,.btn-outline:hover{background:rgba(201,162,39,.1);border-color:var(--gold)}
+.hero-stats{display:flex;gap:60px;justify-content:center;margin-top:70px}
+.hero-stat{text-align:center}
+.hero-stat strong{display:block;font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--gold)}
+.hero-stat span{display:block;font-size:.82rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+
+/* ── MARQUEE ── */
+.marquee{background:var(--gold);overflow:hidden;padding:14px 0;white-space:nowrap}
+.marquee-inner{display:inline-block;animation:scroll 28s linear infinite}
+.marquee-inner span{display:inline-block;padding:0 45px;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#000}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── SECTION COMMON ── */
+.section{padding:110px 40px}
+.section-tag,.section-label{display:inline-flex;align-items:center;gap:8px;background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.2);padding:8px 20px;border-radius:30px;font-size:.75rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:20px}
+.section-title{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;margin-bottom:16px;letter-spacing:-0.5px}
+.section-sub{color:var(--muted);max-width:550px;line-height:1.7;font-size:.95rem}
+.section-header{text-align:center;margin-bottom:60px}
+.section-header .section-sub{margin:0 auto}
+
+/* ── SERVICES ── */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1200px;margin:0 auto}
+.svc-card{background:var(--card);border:1px solid rgba(201,162,39,.12);border-radius:10px;overflow:hidden;transition:all .4s}
+.svc-card:hover{border-color:var(--gold);transform:translateY(-8px);box-shadow:0 25px 60px rgba(201,162,39,.12)}
+.svc-img{width:100%;height:280px;overflow:hidden}
+.svc-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.svc-card:hover .svc-img img{transform:scale(1.06)}
+.svc-body{padding:24px}
+.svc-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.svc-dur{font-size:.82rem;color:var(--muted);margin-bottom:4px}
+.svc-price{font-size:1.05rem;font-weight:700;color:var(--gold);margin-bottom:16px}
+.svc-book{display:inline-block;padding:10px 28px;border:1px solid var(--gold);color:var(--gold);background:transparent;font-size:.82rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:inherit;border-radius:4px}
+.svc-book:hover{background:var(--gold);color:#000}
+
+/* ── FEATURES / WHY US ── */
+.features{background:var(--bg2)}
+.feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;max-width:1200px;margin:0 auto}
+.feat-card{text-align:center;padding:40px 24px}
+.feat-icon{width:70px;height:70px;margin:0 auto 20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--gold);transition:all .3s}
+.feat-card:hover .feat-icon{background:var(--gold);color:#000;border-color:var(--gold)}
+.feat-card h4{font-size:1rem;font-weight:600;margin-bottom:8px}
+.feat-card p{font-size:.85rem;color:var(--muted);line-height:1.6}
+
+/* ── BARBERS ── */
+.barbers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1100px;margin:0 auto}
+.barber-card{background:var(--card);border:1px solid var(--border-subtle);border-radius:10px;overflow:hidden;transition:all .4s}
+.barber-card:hover{border-color:var(--gold);transform:translateY(-6px);box-shadow:0 20px 50px rgba(201,162,39,.1)}
+.barber-img{width:100%;height:320px;overflow:hidden}
+.barber-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.barber-card:hover .barber-img img{transform:scale(1.04)}
+.barber-body{padding:24px;text-align:center}
+.barber-body h3,.barber-body h4{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:4px}
+.barber-role{color:var(--gold);font-size:.82rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.barber-stars{color:#fbbf24;font-size:.85rem}
+.barber-exp{font-size:.8rem;color:var(--muted);margin-top:6px}
+.barber-socials{display:flex;gap:10px;justify-content:center;margin-top:12px}
+.barber-socials a{width:32px;height:32px;border-radius:50%;border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.8rem;transition:all .3s}
+.barber-socials a:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── TESTIMONIALS ── */
+.testimonials{background:var(--bg2)}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1100px;margin:0 auto}
+.test-card{background:var(--card);border:1px solid var(--border-subtle);border-radius:12px;padding:32px;transition:all .3s}
+.test-card:hover{border-color:var(--gold)}
+.test-stars{color:#fbbf24;font-size:.9rem;margin-bottom:16px}
+.test-text{font-size:.95rem;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:20px;font-style:italic}
+.test-author{display:flex;align-items:center;gap:12px}
+.test-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--border)}
+.test-name{font-weight:600;font-size:.9rem}
+.test-meta{font-size:.78rem;color:var(--muted)}
+
+/* ── GALLERY ── */
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:1200px;margin:0 auto}
+.gallery-item{position:relative;overflow:hidden;border-radius:6px;aspect-ratio:1}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.gallery-item:hover img{transform:scale(1.1)}
+.gallery-overlay{position:absolute;inset:0;background:rgba(201,162,39,.15);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center}
+.gallery-item:hover .gallery-overlay{opacity:1}
+.gallery-overlay i{font-size:1.5rem;color:#fff}
+
+/* ── CTA / NEWSLETTER ── */
+.cta-band{position:relative;padding:100px 40px;text-align:center;background:linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.82)),url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1400&h=500&fit=crop') center/cover no-repeat fixed}
+.cta-band h2{font-family:'Playfair Display',serif;font-size:2.6rem;margin-bottom:16px}
+.cta-band p{color:var(--muted);margin-bottom:30px;font-size:1rem}
+.newsletter-form{display:flex;gap:0;max-width:480px;margin:0 auto;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.newsletter-form input{flex:1;padding:16px 20px;background:rgba(255,255,255,.05);border:none;color:#fff;font-size:.95rem;font-family:inherit}
+.newsletter-form input::placeholder{color:var(--muted)}
+.newsletter-form input:focus{outline:none}
+.newsletter-form button{background:var(--gold);color:#000;border:none;padding:16px 28px;font-weight:700;font-size:.85rem;cursor:pointer;letter-spacing:1px;text-transform:uppercase;font-family:inherit;transition:background .3s}
+.newsletter-form button:hover{background:var(--gold-light)}
+
+/* ── HOURS + CONTACT ── */
+.info-section{background:var(--bg2)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1000px;margin:0 auto}
+.info-block h3,.info-block h4{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:20px;color:var(--gold)}
+.info-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-subtle);font-size:.9rem}
+.info-row .day{color:var(--muted)}.info-row .time{font-weight:600}
+.contact-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.contact-icon{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;flex-shrink:0}
+.contact-item p{font-size:.9rem;line-height:1.5}
+.contact-item .label{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.map-placeholder{width:100%;height:100%;min-height:250px;background:var(--card);border:1px solid var(--border-subtle);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem}
+
+/* ── FOOTER ── */
+.footer{padding:70px 40px 30px;border-top:1px solid var(--border)}
+.footer-top{display:grid;grid-template-columns:2.5fr 1fr 1fr 1.5fr;gap:50px;max-width:1200px;margin:0 auto 50px}
+.footer-brand h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.footer-brand h3 i{color:var(--gold)}
+.footer-brand p{color:var(--muted);font-size:.88rem;line-height:1.7;margin-bottom:18px}
+.footer-socials{display:flex;gap:12px}
+.footer-socials a{width:40px;height:40px;border-radius:50%;border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .3s}
+.footer-socials a:hover{border-color:var(--gold);background:var(--gold);color:#000}
+.footer-col h4,.footer-col h5{font-size:.88rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:18px}
+.footer-col a{display:block;color:var(--muted);font-size:.88rem;margin-bottom:12px;transition:color .3s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding-top:30px;border-top:1px solid var(--border-subtle);color:var(--muted);font-size:.82rem}
+.footer-bottom-links{display:flex;gap:20px}
+.footer-bottom-links a{color:var(--muted);transition:color .3s}
+.footer-bottom-links a:hover{color:var(--gold)}
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(40px);transition:all .7s cubic-bezier(.25,.46,.45,.94)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal:nth-child(2){transition-delay:.1s}.reveal:nth-child(3){transition-delay:.2s}.reveal:nth-child(4){transition-delay:.25s}
+.reveal:nth-child(5){transition-delay:.3s}.reveal:nth-child(6){transition-delay:.35s}
+
+/* ── ENHANCED ANIMATIONS ── */
+@keyframes shimmerText{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes goldPulse{0%,100%{box-shadow:0 0 5px rgba(201,162,39,.2)}50%{box-shadow:0 0 25px rgba(201,162,39,.5),0 0 50px rgba(201,162,39,.15)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes scaleIn{0%{opacity:0;transform:scale(.9)}100%{opacity:1;transform:scale(1)}}
+@keyframes slideInRight{0%{opacity:0;transform:translateX(30px)}100%{opacity:1;transform:translateX(0)}}
+@keyframes rotateIn{0%{opacity:0;transform:rotate(-5deg) scale(.95)}100%{opacity:1;transform:rotate(0) scale(1)}}
+@keyframes borderGlow{0%,100%{border-color:rgba(201,162,39,.2)}50%{border-color:rgba(201,162,39,.6)}}
+
+.hero h1{background:linear-gradient(90deg,#fff 0%,var(--gold) 40%,var(--gold-light) 60%,#fff 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmerText 4s linear infinite}
+.hero h1 .gold{-webkit-text-fill-color:var(--gold)}
+
+.hero-badge{animation:fadeInUp .8s ease .2s both}
+.hero-content p{animation:fadeInUp .8s ease .6s both}
+.hero-btns{animation:fadeInUp .8s ease .8s both}
+.hero-stats{animation:fadeInUp .8s ease 1s both}
+.hero-stat strong{transition:transform .3s}
+.hero-stat:hover strong{transform:scale(1.1)}
+
+.btn-gold{position:relative;overflow:hidden}
+.btn-gold::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s}
+.btn-gold:hover::before{left:100%}
+
+.svc-card{position:relative}
+.svc-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform .4s}
+.svc-card:hover::after{transform:scaleX(1)}
+
+.feat-icon{transition:all .4s cubic-bezier(.175,.885,.32,1.275)}
+.feat-card:hover .feat-icon{transform:scale(1.15) rotate(5deg)}
+
+.barber-card{position:relative;overflow:hidden}
+.barber-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.barber-card:hover::before{transform:scaleX(1)}
+
+.test-card{position:relative;overflow:hidden}
+.test-card::before{content:'\201C';position:absolute;top:-10px;left:10px;font-size:6rem;font-family:'Playfair Display',serif;color:rgba(201,162,39,.06);line-height:1;pointer-events:none}
+.test-card{transition:all .4s cubic-bezier(.25,.46,.45,.94)}
+.test-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(201,162,39,.08)}
+
+.gallery-item{transition:transform .3s}
+.gallery-item:hover{transform:scale(1.02)}
+
+.newsletter-form{transition:box-shadow .3s}
+.newsletter-form:focus-within{box-shadow:0 0 30px rgba(201,162,39,.2)}
+
+.footer-socials a{transition:all .3s cubic-bezier(.175,.885,.32,1.275)}
+.footer-socials a:hover{transform:translateY(-4px)}
+
+.contact-icon{transition:all .3s}
+.contact-item:hover .contact-icon{background:rgba(201,162,39,.1);border-color:var(--gold);transform:scale(1.1)}
+
+/* ── BACK TO TOP ── */
+.back-to-top{position:fixed;bottom:30px;right:100px;width:48px;height:48px;border-radius:50%;background:var(--gold);color:#000;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;opacity:0;visibility:hidden;transform:translateY(20px);transition:all .3s;z-index:90;box-shadow:0 4px 20px rgba(201,162,39,.3)}
+.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{background:var(--gold-light);transform:translateY(-4px);box-shadow:0 8px 30px rgba(201,162,39,.4)}
+
+/* ── VAPI AI CONCIERGE ── */
+.vapi-label{position:fixed;bottom:90px;right:24px;background:var(--gold);color:#000;font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 16px;border-radius:20px;z-index:999;pointer-events:none;box-shadow:0 4px 20px rgba(201,162,39,.4);animation:vapiFloat 3s ease-in-out infinite,fadeInUp .8s ease .5s both}
+@keyframes vapiFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media(max-width:600px){.vapi-label{bottom:80px;right:16px;font-size:.7rem;padding:6px 12px}.back-to-top{right:80px}}
+
+/* ── PAGE LOADER ── */
+.page-loader{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s,visibility .5s}
+.page-loader.hidden{opacity:0;visibility:hidden}
+.loader-content{text-align:center}
+.loader-content .scissors{font-size:2.5rem;color:var(--gold);animation:float 1.5s ease-in-out infinite}
+.loader-content p{margin-top:12px;font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);letter-spacing:3px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.feat-grid{grid-template-columns:repeat(2,1fr)}.gallery-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){
+.hero h1{font-size:2.6rem}.hero-stats{flex-direction:column;gap:20px}.hero-stat strong{font-size:2rem}
+.hero-btns{flex-direction:column;align-items:center}.btn-gold,.btn-outline{width:100%;max-width:300px;justify-content:center}
+.navbar{padding:16px 20px}.navbar.scrolled{padding:12px 20px}
+.nav-cta{display:none}
+.svc-grid,.barbers-grid,.test-grid{grid-template-columns:1fr}
+.feat-grid{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr}
+.footer-top{grid-template-columns:1fr}.footer-bottom{flex-direction:column;gap:12px;text-align:center}
+.section{padding:70px 20px}.gallery-grid{grid-template-columns:repeat(2,1fr)}
+.section-title{font-size:2rem}
+.newsletter-form{flex-direction:column;border-radius:0}.newsletter-form input,.newsletter-form button{border-radius:8px}
+.hero-sub,.hero p{font-size:1rem}
+.marquee-inner{font-size:.7rem}
+}
+</style>
+</head>
+<body>
+<!-- PAGE LOADER -->
+<div class="page-loader" id="pageLoader">
+  <div class="loader-content">
+    <div class="scissors"><i class="bi bi-scissors"></i></div>
+    <p>ELITE CUTS</p>
+  </div>
+</div>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="bi bi-chevron-up"></i></button>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">ELITE<span>CUTS</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#services">Services</a>
+      <a href="#why">Why Us</a>
+      <a href="#barbers">Barbers</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+      <a href="admin.html" class="nav-admin-link"><i class="bi bi-shield-lock"></i> Admin</a>
+    </div>
+    <a href="booking.html" class="nav-cta">Book Now</a>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1585747860019-024d5e633a0b?w=1600&h=900&fit=crop')"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">★ PREMIUM GROOMING SINCE 2015 ★</div>
+    <h1>WHERE <span style="color:var(--gold)">GENTLEMEN</span><br>ARE CRAFTED</h1>
+    <p>An exclusive grooming sanctuary for the modern man.<br>Precision cuts. Timeless style. Unmatched experience.</p>
+    <div class="hero-btns">
+      <a href="booking.html" class="btn-gold">BOOK APPOINTMENT</a>
+      <a href="#services" class="btn-outline">EXPLORE SERVICES</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>15K+</strong><span>Happy Clients</span></div>
+      <div class="hero-stat"><strong>9+</strong><span>Years Legacy</span></div>
+      <div class="hero-stat"><strong>4.9</strong><span>Google Rating</span></div>
+      <div class="hero-stat"><strong>25+</strong><span>Awards Won</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-inner">
+    ★ PREMIUM GROOMING &nbsp;&nbsp; ★ EXPERT BARBERS &nbsp;&nbsp; ★ LUXURY EXPERIENCE &nbsp;&nbsp; ★ SIGNATURE CUTS &nbsp;&nbsp; ★ BEARD SCULPTING &nbsp;&nbsp; ★ HOT TOWEL SHAVES &nbsp;&nbsp; ★ PREMIUM GROOMING &nbsp;&nbsp; ★ EXPERT BARBERS &nbsp;&nbsp; ★ LUXURY EXPERIENCE &nbsp;&nbsp; ★ SIGNATURE CUTS &nbsp;&nbsp; ★ BEARD SCULPTING &nbsp;&nbsp; ★ HOT TOWEL SHAVES &nbsp;&nbsp;
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-header reveal">
+    <div class="section-label">WHAT WE OFFER</div>
+    <h2 class="section-title">Our Premium Services</h2>
+    <p class="section-sub">Each service is a masterclass in grooming — tailored to perfection, delivered with pride.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc-card reveal">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&h=400&fit=crop" alt="The Gentlemen Cut"></div>
+      <div class="svc-body">
+        <h3 class="svc-name">THE GENTLEMEN CUT</h3>
+        <div class="svc-dur"><i class="bi bi-clock"></i> 30 min</div>
+        <div class="svc-price">&#8377;1,800</div>
+        <a href="booking.html" class="svc-book">Book Now <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&h=400&fit=crop" alt="1920s Brooklyn"></div>
+      <div class="svc-body">
+        <h3 class="svc-name">1920'S BROOKLYN</h3>
+        <div class="svc-dur"><i class="bi bi-clock"></i> 1 hr</div>
+        <div class="svc-price">&#8377;1,500</div>
+        <a href="booking.html" class="svc-book">Book Now <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=400&fit=crop" alt="Signature Line"></div>
+      <div class="svc-body">
+        <h3 class="svc-name">SIGNATURE LINE</h3>
+        <div class="svc-dur"><i class="bi bi-clock"></i> 1 hr 30 min</div>
+        <div class="svc-price">&#8377;2,800</div>
+        <a href="booking.html" class="svc-book">Book Now <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop" alt="The Crown Color"></div>
+      <div class="svc-body">
+        <h3 class="svc-name">THE CROWN COLOR</h3>
+        <div class="svc-dur"><i class="bi bi-clock"></i> 2 hr</div>
+        <div class="svc-price">&#8377;4,500</div>
+        <a href="booking.html" class="svc-book">Book Now <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&h=400&fit=crop" alt="Royal Treatment"></div>
+      <div class="svc-body">
+        <h3 class="svc-name">ROYAL TREATMENT</h3>
+        <div class="svc-dur"><i class="bi bi-clock"></i> 2 hr 30 min</div>
+        <div class="svc-price">&#8377;6,500</div>
+        <a href="booking.html" class="svc-book">Book Now <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-img"><img src="https://images.unsplash.com/photo-1634302086887-13b5281d1a58?w=600&h=400&fit=crop" alt="Little Legends"></div>
+      <div class="svc-body">
+        <h3 class="svc-name">LITTLE LEGENDS</h3>
+        <div class="svc-dur"><i class="bi bi-clock"></i> 30 min</div>
+        <div class="svc-price">&#8377;800</div>
+        <a href="booking.html" class="svc-book">Book Now <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="section" id="why" style="background:#080808">
+  <div class="section-header reveal">
+    <div class="section-label">THE ELITE DIFFERENCE</div>
+    <h2 class="section-title">Why Choose Us</h2>
+    <p class="section-sub">We don't just cut hair — we craft confidence. Every detail, every time.</p>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card reveal">
+      <div class="feat-icon"><i class="bi bi-award"></i></div>
+      <h4>Master Barbers</h4>
+      <p>Our team holds international certifications with over 50 years of combined experience in premium grooming.</p>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><i class="bi bi-gem"></i></div>
+      <h4>Luxury Products</h4>
+      <p>We use only the finest organic and imported products — from Italian creams to Japanese steel blades.</p>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><i class="bi bi-shield-check"></i></div>
+      <h4>Hygienic Standards</h4>
+      <p>Medical-grade sterilization, single-use accessories, and a pristine environment for your peace of mind.</p>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon"><i class="bi bi-emoji-smile"></i></div>
+      <h4>Tailored Experience</h4>
+      <p>Complimentary beverages, personalized consultations, and a relaxing ambiance crafted for gentlemen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BARBERS -->
+<section class="section" id="barbers">
+  <div class="section-header reveal">
+    <div class="section-label">THE ARTISANS</div>
+    <h2 class="section-title">Meet Our Barbers</h2>
+    <p class="section-sub">Skilled hands, creative minds, and a passion for perfection.</p>
+  </div>
+  <div class="barbers-grid">
+    <div class="barber-card reveal">
+      <div class="barber-img">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop" alt="James Wilson">
+      </div>
+      <div class="barber-body">
+        <h4>James Wilson</h4>
+        <div class="barber-role">Master Barber</div>
+        <div class="barber-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> <span>5.0</span></div>
+        <div class="barber-exp">12 Years Experience</div>
+        <p>Specializing in classic fades, hot towel shaves, and precision scissor work. James brings old-school artistry to modern grooming.</p>
+        <div class="barber-socials">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="barber-card reveal">
+      <div class="barber-img">
+        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop" alt="Michael Chen">
+      </div>
+      <div class="barber-body">
+        <h4>Michael Chen</h4>
+        <div class="barber-role">Senior Stylist</div>
+        <div class="barber-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i> <span>4.8</span></div>
+        <div class="barber-exp">8 Years Experience</div>
+        <p>A trendsetter in contemporary cuts and color. Michael blends Asian precision with Western flair for truly unique styles.</p>
+        <div class="barber-socials">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="barber-card reveal">
+      <div class="barber-img">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop" alt="David Martinez">
+      </div>
+      <div class="barber-body">
+        <h4>David Martinez</h4>
+        <div class="barber-role">Beard Specialist</div>
+        <div class="barber-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> <span>5.0</span></div>
+        <div class="barber-exp">10 Years Experience</div>
+        <p>The beard whisperer. David sculpts award-winning beards and delivers the smoothest hot towel shaves in the city.</p>
+        <div class="barber-socials">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonials" style="background:#080808">
+  <div class="section-header reveal">
+    <div class="section-label">CLIENT VOICES</div>
+    <h2 class="section-title">What They Say</h2>
+    <p class="section-sub">Real stories from real gentlemen who trust Elite Cuts.</p>
+  </div>
+  <div class="test-grid">
+    <div class="test-card reveal">
+      <div class="test-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+      <p class="test-text">"Elite Cuts isn't just a barbershop — it's a ritual. Every visit feels like stepping into a world-class lounge. The attention to detail is unmatched."</p>
+      <div class="test-author">
+        <img class="test-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&h=80&fit=crop" alt="">
+        <div><div class="test-name">Arjun Kapoor</div><div class="test-meta">CEO, Kapoor Industries</div></div>
+      </div>
+    </div>
+    <div class="test-card reveal">
+      <div class="test-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+      <p class="test-text">"James gave me the best fade I've ever had. The complimentary espresso and the ambiance made it a full luxury experience. I'm a client for life."</p>
+      <div class="test-author">
+        <img class="test-avatar" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&h=80&fit=crop" alt="">
+        <div><div class="test-name">Rohan Mehta</div><div class="test-meta">Founder, RM Ventures</div></div>
+      </div>
+    </div>
+    <div class="test-card reveal">
+      <div class="test-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div>
+      <p class="test-text">"Brought my son for his first proper haircut. The Little Legends service was so gentle and fun — he actually asked to come back! Highly recommend."</p>
+      <div class="test-author">
+        <img class="test-avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop" alt="">
+        <div><div class="test-name">Vikram Singh</div><div class="test-meta">Architect, VS Design Studio</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section" id="gallery">
+  <div class="section-header reveal">
+    <div class="section-label">OUR CRAFT</div>
+    <h2 class="section-title">Gallery</h2>
+    <p class="section-sub">A glimpse into the artistry that defines Elite Cuts.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=500&h=500&fit=crop" alt="Classic haircut">
+      <div class="gallery-overlay"><i class="bi bi-zoom-in"></i></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=500&h=500&fit=crop" alt="Barber at work">
+      <div class="gallery-overlay"><i class="bi bi-zoom-in"></i></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1521490683712-35a1cb235d1c?w=500&h=500&fit=crop" alt="Beard grooming">
+      <div class="gallery-overlay"><i class="bi bi-zoom-in"></i></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1585747860019-024d5e633a0b?w=500&h=500&fit=crop" alt="Barbershop interior">
+      <div class="gallery-overlay"><i class="bi bi-zoom-in"></i></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=500&h=500&fit=crop" alt="Premium shave">
+      <div class="gallery-overlay"><i class="bi bi-zoom-in"></i></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=500&h=500&fit=crop" alt="Hair styling">
+      <div class="gallery-overlay"><i class="bi bi-zoom-in"></i></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1587909209111-5097ee578ec3?w=500&h=500&fit=crop" alt="Barber tools">
+      <div class="gallery-overlay"><i class="bi bi-zoom-in"></i></div>
+    </div>
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=500&h=500&fit=crop" alt="Gentleman style">
+      <div class="gallery-overlay"><i class="bi bi-zoom-in"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <div class="reveal" style="max-width:700px;margin:0 auto;text-align:center">
+    <div class="section-label">STAY IN THE LOOP</div>
+    <h2 class="section-title" style="color:#fff">Join the Elite Circle</h2>
+    <p style="color:rgba(255,255,255,.7);margin-bottom:30px">Subscribe to receive exclusive offers, grooming tips, and early access to new services.</p>
+    <form class="newsletter-form" id="newsletterForm">
+      <input type="email" placeholder="Enter your email address" required>
+      <button type="submit">SUBSCRIBE</button>
+    </form>
+    <div id="nlMsg" style="margin-top:12px;color:var(--gold);display:none"></div>
+  </div>
+</section>
+
+<!-- HOURS & CONTACT -->
+<section class="section info-section" id="contact">
+  <div class="section-header reveal">
+    <div class="section-label">VISIT US</div>
+    <h2 class="section-title">Hours &amp; Contact</h2>
+  </div>
+  <div class="info-grid">
+    <div class="info-block reveal">
+      <h4><i class="bi bi-clock" style="color:var(--gold);margin-right:8px"></i>Opening Hours</h4>
+      <div class="info-row"><span>Monday - Friday</span><span>9:00 AM - 8:00 PM</span></div>
+      <div class="info-row"><span>Saturday</span><span>9:00 AM - 9:00 PM</span></div>
+      <div class="info-row"><span>Sunday</span><span>10:00 AM - 6:00 PM</span></div>
+      <div class="info-row" style="border:none;margin-top:12px;color:var(--gold);font-weight:600"><span>Public Holidays</span><span>By Appointment</span></div>
+    </div>
+    <div class="info-block reveal">
+      <h4><i class="bi bi-geo-alt" style="color:var(--gold);margin-right:8px"></i>Get In Touch</h4>
+      <div class="contact-item"><div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div><div><strong>Address</strong><br>42 Crown Street, Connaught Place<br>New Delhi, 110001</div></div>
+      <div class="contact-item"><div class="contact-icon"><i class="bi bi-telephone-fill"></i></div><div><strong>Phone</strong><br>+91 98765 43210</div></div>
+      <div class="contact-item"><div class="contact-icon"><i class="bi bi-envelope-fill"></i></div><div><strong>Email</strong><br>hello@elitecuts.in</div></div>
+      <div class="contact-item"><div class="contact-icon"><i class="bi bi-whatsapp"></i></div><div><strong>WhatsApp</strong><br>+91 98765 43210</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="margin-bottom:16px;display:inline-block">ELITE<span>CUTS</span></a>
+      <p style="color:rgba(255,255,255,.5);max-width:300px;line-height:1.7;font-size:.9rem">Premium grooming for the modern gentleman. Crafting confidence since 2015.</p>
+      <div class="footer-socials">
+        <a href="#"><i class="bi bi-instagram"></i></a>
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-twitter-x"></i></a>
+        <a href="#"><i class="bi bi-youtube"></i></a>
+        <a href="#"><i class="bi bi-linkedin"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <a href="#services">Services</a>
+      <a href="#barbers">Our Barbers</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <a href="booking.html">The Gentlemen Cut</a>
+      <a href="booking.html">1920's Brooklyn</a>
+      <a href="booking.html">Signature Line</a>
+      <a href="booking.html">The Crown Color</a>
+      <a href="booking.html">Royal Treatment</a>
+      <a href="booking.html">Little Legends</a>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Refund Policy</a>
+      <a href="#">Cookie Policy</a>
+      <a href="admin.html">Admin Portal</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2024 Elite Cuts. All rights reserved. Crafted with <i class="bi bi-heart-fill" style="color:var(--gold)"></i> for gentlemen.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Sitemap</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Navbar scroll effect */
+const nb = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  nb.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* Mobile menu toggle */
+const mt = document.getElementById('mobileToggle');
+const nl = document.getElementById('navLinks');
+mt.addEventListener('click', () => {
+  nl.classList.toggle('open');
+  mt.innerHTML = nl.classList.contains('open') ? '<i class="bi bi-x-lg"></i>' : '<i class="bi bi-list"></i>';
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => { nl.classList.remove('open'); mt.innerHTML = '<i class="bi bi-list"></i>'; });
+});
+
+/* Smooth scroll */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+/* Scroll reveal */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+}, { threshold: 0.15 });
+revealEls.forEach(el => revealObs.observe(el));
+
+/* Newsletter */
+document.getElementById('newsletterForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const email = this.querySelector('input').value;
+  const msg = document.getElementById('nlMsg');
+  msg.style.display = 'block';
+  msg.textContent = 'Subscribing...';
+  try {
+    const res = await fetch('http://localhost:3000/api/newsletter', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    if (res.ok) { msg.textContent = 'Welcome to the Elite Circle!'; this.reset(); }
+    else { msg.textContent = 'You are already subscribed!'; }
+  } catch {
+    msg.textContent = 'Welcome to the Elite Circle!'; this.reset();
+  }
+  setTimeout(() => { msg.style.display = 'none'; }, 4000);
+});
+
+/* Parallax effect on hero */
+window.addEventListener('scroll', () => {
+  const hero = document.querySelector('.hero-bg');
+  if (hero) hero.style.transform = 'translateY(' + (window.scrollY * 0.3) + 'px) scale(1.1)';
+});
+
+/* Page Loader */
+window.addEventListener('load', () => {
+  setTimeout(() => { document.getElementById('pageLoader').classList.add('hidden'); }, 800);
+});
+
+/* Back to Top */
+const btt = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  btt.classList.toggle('visible', window.scrollY > 400);
+});
+btt.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* Animated Counters */
+function animateCounter(el, target, suffix, isDecimal) {
+  let current = 0;
+  const increment = target / 60;
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) { current = target; clearInterval(timer); }
+    el.textContent = isDecimal ? current.toFixed(1) + suffix : Math.floor(current).toLocaleString('en-IN') + suffix;
+  }, 25);
+}
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const stats = e.target.querySelectorAll('.hero-stat strong');
+      if (stats[0]) animateCounter(stats[0], 15, 'K+', false);
+      if (stats[1]) animateCounter(stats[1], 9, '+', false);
+      if (stats[2]) animateCounter(stats[2], 4.9, '', true);
+      if (stats[3]) animateCounter(stats[3], 25, '+', false);
+      counterObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats) counterObs.observe(heroStats);
+</script>
+
+<!-- VAPI AI Concierge -->
+<script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" async type="text/javascript"></script>
+<div class="vapi-label" id="vapiLabel">AI Concierge</div>
+<vapi-widget
+  public-key="dfd86a82-afe9-4e80-929a-a35999c644de"
+  assistant-id="05ba26ff-030a-460e-a087-d0ba0e921e5a"
+  mode="chat"
+  theme="dark"
+  position="bottom-right"
+  size="full"
+  radius="medium"
+  base-color="#1a1410"
+  accent-color="#c9a84c"
+  button-base-color="#1a1410"
+  button-accent-color="#c9a84c"
+  main-label="Elite Cuts AI Concierge"
+  empty-chat-message="Hello! I'm your Elite Cuts AI Concierge. I can help you book appointments, answer questions about our services, or check availability. How may I assist you today? ✨"
+></vapi-widget>
+</body>
+</html>
